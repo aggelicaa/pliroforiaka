@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Detect Voyage Issues</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+.page-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin: 20px 0;
+  color: #003366;
+}
+
+.box {
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #003366;
+  border-radius: 8px;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.big-textarea {
+  height: 180px;
+  resize: vertical;
+}
+
+button {
+  background: #003366;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #0055a5;
+}
+
+.item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #003366;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: none;
+}
+
+.alert-box {
+  max-width: 900px;
+  margin: 0 auto 15px auto;
+  padding: 15px;
+  background: #c40000;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  text-align: center;
+  display: none;
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.stat {
+  background: #f4f6f8;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.stat div {
+  font-size: 22px;
+  margin-top: 5px;
+}
+
+.high { color: red; }
+.medium { color: orange; }
+.low { color: green; }
+
+.box ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.box ul li {
+  margin-bottom: 8px;
+}
+
+.box ul li::before {
+  content: "⚙️ ";
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page-title">
+  Detect Voyage Issues
+</div>
+
+<div id="notification" class="notification"></div>
+
+<div id="alertBox" class="alert-box">
+    High Risk Alert Detected!
+</div>
+
+<div class="box">
+  <h3>Issue Dashboard</h3>
+
+  <div class="stats">
+
+    <div class="stat">
+      Total
+      <div id="total">0</div>
+    </div>
+
+    <div class="stat high">
+      High
+      <div id="high">0</div>
+    </div>
+
+    <div class="stat medium">
+      Medium
+      <div id="medium">0</div>
+    </div>
+
+    <div class="stat low">
+      Low
+      <div id="low">0</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="box">
+
+  <h3>Recommended Action Plans</h3>
+
+  <p>
+    The system provides suggested action plans to prevent and mitigate voyage complications such as delays, route deviations, and weather risks.
+  </p>
+
+  <ul>
+    <li>Adjust route to avoid high-risk weather zones</li>
+    <li>Increase monitoring frequency for affected voyages</li>
+    <li>Notify operational departments for immediate response</li>
+    <li>Recalculate ETA based on current conditions</li>
+  </ul>
+
+</div>
+
+<div class="box">
+  <h3>Search Issues</h3>
+
+  <input type="text" id="searchInput"
+         placeholder="Search by code or keyword..."
+         onkeyup="filterIssues()">
+
+  <div id="results">
+    <div class="item">No issues yet.</div>
+  </div>
+</div>
+
+<div class="box">
+  <h3>Report New Issue</h3>
+
+  <select id="issueType">
+    <option value="">Issue Type</option>
+    <option>Delay</option>
+    <option>Weather</option>
+    <option>Route Deviation</option>
+  </select>
+
+  <select id="severity">
+    <option value="">Severity</option>
+    <option>High</option>
+    <option>Medium</option>
+    <option>Low</option>
+  </select>
+
+  <textarea id="newIssue" class="big-textarea"
+            placeholder="Describe issue..."></textarea>
+
+  <button onclick="addIssue()">Submit Issue</button>
+</div>
+
+<script>
+
+let issues = JSON.parse(localStorage.getItem("issues")) || [];
+
+render(issues);
+updateStats();
+updateAlert();
+
+function render(list) {
+  let results = document.getElementById("results");
+
+  if (list.length === 0) {
+    results.innerHTML = "<div class='item'>No issues found.</div>";
+    return;
+  }
+
+  results.innerHTML = "";
+
+  list.forEach(i => {
+    results.innerHTML += `
+      <div class="item">
+        <strong>${i.code}</strong>
+        [${i.type} | ${i.severity}] - ${i.text}
+      </div>
+    `;
+  });
+}
+
+function filterIssues() {
+  let input = document.getElementById("searchInput").value.toLowerCase();
+
+  let filtered = issues.filter(i =>
+    i.text.toLowerCase().includes(input) ||
+    i.code.toLowerCase().includes(input)
+  );
+
+  render(filtered);
+}
+
+function addIssue() {
+
+  let text = document.getElementById("newIssue").value.trim();
+  let type = document.getElementById("issueType").value;
+  let severity = document.getElementById("severity").value;
+
+  if (!text || !type || !severity) return;
+
+  let newItem = {
+    code: "V" + (issues.length + 1).toString().padStart(3, "0"),
+    text,
+    type,
+    severity
+  };
+
+  issues.push(newItem);
+
+  localStorage.setItem("issues", JSON.stringify(issues));
+
+  document.getElementById("newIssue").value = "";
+  document.getElementById("issueType").value = "";
+  document.getElementById("severity").value = "";
+
+  render(issues);
+  updateStats();
+  updateAlert();
+
+  showNotification("New issue: " + newItem.code);
+}
+
+function updateStats() {
+
+  document.getElementById("total").innerText = issues.length;
+
+  document.getElementById("high").innerText =
+    issues.filter(i => i.severity === "High").length;
+
+  document.getElementById("medium").innerText =
+    issues.filter(i => i.severity === "Medium").length;
+
+  document.getElementById("low").innerText =
+    issues.filter(i => i.severity === "Low").length;
+}
+
+function updateAlert() {
+  let hasHigh = issues.some(i => i.severity === "High");
+
+  document.getElementById("alertBox").style.display =
+    hasHigh ? "block" : "none";
+}
+
+function showNotification(msg) {
+  let n = document.getElementById("notification");
+  n.innerText = msg;
+  n.style.display = "block";
+
+  setTimeout(() => {
+    n.style.display = "none";
+  }, 2500);
+}
+
+</script>
+
+</body>
+</html>
