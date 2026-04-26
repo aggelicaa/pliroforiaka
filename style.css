@@ -1,0 +1,137 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #1f1f1f;
+}
+
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #003366;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  background: #0055a5;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: white;
+  padding: 15px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.container {
+  padding: 20px;
+}
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.stat-card p {
+  font-size: 24px;
+  font-weight: bold;
+  color: #003366;
+  margin-top: 10px;
+}
+
+input {
+  padding: 10px;
+  width: 300px;
+  margin-right: 10px;
+
+  border: 2px solid #003366;   /* μόνο εδώ border */
+  border-radius: 8px;
+  outline: none;
+}
+
+input:focus {
+  box-shadow: 0 0 0 3px rgba(0,51,102,0.2);
+}
+
+button {
+  background: white;
+  color: #003366;
+  border: 2px solid #003366;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #003366;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
