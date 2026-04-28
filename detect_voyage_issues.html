@@ -8,12 +8,30 @@
 
 <style>
 
-.page-title {
-  text-align: center;
-  font-size: 26px;
-  font-weight: bold;
-  margin: 20px 0;
-  color: #003366;
+header { 
+  background: #003366; 
+  color: white; 
+  padding: 20px; 
+  text-align: center; 
+  margin-bottom: 0; 
+}
+
+nav { 
+  background: #002244; 
+  padding: 10px; 
+  text-align: center; 
+  margin-bottom: 20px; 
+}
+
+nav a { 
+  color: white; 
+  margin: 0 15px; 
+  text-decoration: none; 
+  font-weight: bold; 
+}
+
+nav a:hover { 
+  text-decoration: underline; 
 }
 
 .box {
@@ -131,7 +149,11 @@ button:hover {
 </head>
 
 <body>
-  
+
+<header>
+  <h1>Detect Voyage Issues</h1>
+</header>
+
 <nav>
   <a href="index.html">Home</a>
   <a href="realtime.html">Real-Time Data Sharing</a>
@@ -139,10 +161,6 @@ button:hover {
   <a href="detect_voyage_issues.html">Detect Voyage Issues</a>
   <a href="login.html" class="logout-btn">Logout</a>
 </nav>
-  
-<div class="page-title">
-  Detect Voyage Issues
-</div>
 
 <div id="notification" class="notification"></div>
 
@@ -154,7 +172,6 @@ button:hover {
   <h3>Issue Dashboard</h3>
 
   <div class="stats">
-
     <div class="stat">
       Total
       <div id="total">0</div>
@@ -174,12 +191,10 @@ button:hover {
       Low
       <div id="low">0</div>
     </div>
-
   </div>
 </div>
 
 <div class="box">
-
   <h3>Recommended Action Plans</h3>
 
   <p>
@@ -192,7 +207,6 @@ button:hover {
     <li>Notify operational departments for immediate response</li>
     <li>Recalculate ETA based on current conditions</li>
   </ul>
-
 </div>
 
 <div class="box">
