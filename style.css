@@ -219,7 +219,6 @@ button:hover {
   background: #f4f8ff;
 }
 
-/* Home page*/
 .centered-header {
     text-align: center;
     padding: 30px 0;
@@ -304,8 +303,6 @@ button:hover {
     text-align: center;
 }
 
-/* Login */
-
 .login-body {
     display: flex;
     justify-content: center;
@@ -384,4 +381,7 @@ button:hover {
 
 .login-submit-btn:hover {
     background: #0055a5;
+}
+.box ul li::before {
+  content: "" !important;
 }
