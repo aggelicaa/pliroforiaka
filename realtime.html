@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<title>Real Time Data Sharing - Fleet ERP</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* Κρατάμε το στυλ του template σου */
+.page-title { text-align: center; font-size: 26px; font-weight: bold; margin: 20px 0; color: #003366; }
+.box { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
+input, select, textarea { width: 100%; padding: 10px; border: 2px solid #003366; border-radius: 8px; outline: none; margin-bottom: 10px; font-family: inherit; }
+button { background: #003366; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+button:hover { background: #0055a5; transform: translateY(-1px); }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 5px; }
+.stat { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; text-align: center; }
+.stat div { font-size: 24px; font-weight: bold; color: #003366; }
+
+.item { padding: 15px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: flex-start; }
+.item:hover { background-color: #f8fafc; }
+
+/* Ο τίτλος που άλλαξε */
+header { background: #003366; color: white; padding: 25px; text-align: center; }
+nav { background: #002244; padding: 12px; text-align: center; margin-bottom: 20px; }
+nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; font-size: 14px; }
+nav a:hover { color: #00d2ff; }
+
+.status-tag { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: bold; text-transform: uppercase; }
+.onshore { background: #e0f2fe; color: #0369a1; }
+.offshore { background: #fef3c7; color: #92400e; }
+.priority-high { background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; }
+
+.notification { position: fixed; top: 20px; right: 20px; background: #059669; color: white; padding: 15px 20px; border-radius: 8px; display: none; z-index: 1000; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+
+.flex-row { display: flex; gap: 15px; align-items: center; margin-bottom: 15px; }
+.badge { font-size: 12px; color: #64748b; font-style: italic; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1 style="margin:0; letter-spacing: 2px;">REAL TIME DATA SHARING</h1>
+</header>
+
+<nav>
+  <a href="#">DASHBOARD</a>
+  <a href="#">REAL-TIME FEED</a>
+  <a href="#">FLEET DOCUMENTS</a>
+  <a href="#">COMPLIANCE MAP</a>
+  <a href="#" style="color: #f87171;">LOGOUT</a>
+</nav>
+
+<div id="notification" class="notification">✅ Η πληροφορία κοινοποιήθηκε σε όλα τα τμήματα!</div>
+
+<div class="box">
+  <div class="flex-row">
+    <h3 style="margin:0;">System Overview</h3>
+    <span class="badge">● Live Sync Active</span>
+  </div>
+  <div class="stats">
+    <div class="stat">Connections<div>12/12</div><small>Onshore/Offshore</small></div>
+    <div class="stat">Updates Today<div>48</div><small>Broadcasts</small></div>
+    <div class="stat" style="border-top: 3px solid #f87171;">Urgent<div>2</div><small>Pending Action</small></div>
+    <div class="stat">System Health<div>99%</div><small>Latency: 45ms</small></div>
+  </div>
+</div>
+
+<div class="box">
+  <h3><span style="color: #003366;">✚</span> Create New Data Share</h3>
+  <div class="flex-row">
+    <select id="infoCategory" style="width: 30%;">
+      <option>Legislation Update</option>
+      <option>Customer Requirement</option>
+      <option>Operational Alert</option>
+      <option>Vessel Report</option>
+    </select>
+    <select id="priorityLevel" style="width: 30%;">
+      <option value="normal">Normal Priority</option>
+      <option value="high">High Priority</option>
+    </select>
+  </div>
+  
+  <textarea id="mainPost" placeholder="Περιγράψτε την αλλαγή ή την πληροφορία που πρέπει να διαμοιραστεί άμεσα..." rows="5"></textarea>
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+    <div>
+      <button onclick="handlePublish()">Broadcast to Fleet</button>
+    </div>
+    <span id="draftIndicator" style="display:none; color: #059669; font-weight: bold; font-size: 13px;">
+       ✔ Auto-saved (Draft)
+    </span>
+  </div>
+</div>
+
+<div class="box">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h3 style="margin:0;">Live Communication Stream</h3>
+  </div>
+
+  <div id="dataStream">
+    <div class="item">
+      <div style="flex: 1;">
+        <div style="margin-bottom: 8px;">
+          <span class="status-tag priority-high">High Priority</span>
+          <span class="status-tag onshore">Onshore: Legal Dept</span>
+        </div>
+        <strong>Νέα Νομοθεσία IMO (Low Sulphur):</strong> Όλα τα πλοία στην ζώνη Α πρέπει να αλλάξουν τύπο καυσίμου εντός 24 ωρών.
+        <br><small class="badge">Posted: 14:30 | ID: #9921</small>
+      </div>
+      <div style="text-align: right;">
+        <button onclick="editMsg(this)" style="background: #e2e8f0; color: #1e293b; font-size: 11px;">Edit Content</button>
+      </div>
+    </div>
+
+    <div class="item">
+      <div style="flex: 1;">
+        <div style="margin-bottom: 8px;">
+          <span class="status-tag offshore">Offshore: Captain Alpha</span>
+        </div>
+        <strong>Vessel Update:</strong> Ολοκλήρωση επιθεώρησης cargo. Όλα τα δεδομένα συγχρονίστηκαν με το onshore ERP.
+        <br><small class="badge">Posted: 13:15 | ID: #9918</small>
+      </div>
+      <div style="text-align: right;">
+        <button onclick="editMsg(this)" style="background: #e2e8f0; color: #1e293b; font-size: 11px;">Edit Content</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function handlePublish() {
+    const text = document.getElementById("mainPost").value;
+    if(text.trim() === "") return;
+    
+    document.getElementById("notification").style.display = "block";
+    
+    const stream = document.getElementById("dataStream");
+    const newItem = `
+      <div class="item">
+        <div style="flex: 1;">
+          <div style="margin-bottom: 8px;">
+            <span class="status-tag onshore">Onshore: COO</span>
+          </div>
+          <strong>Νέα Ενημέρωση:</strong> ${text}
+          <br><small class="badge">Posted: Τώρα | ID: #NEW</small>
+        </div>
+        <div style="text-align: right;">
+          <button style="background: #e2e8f0; color: #1e293b; font-size: 11px;">Edit Content</button>
+        </div>
+      </div>`;
+    
+    stream.insertAdjacentHTML('afterbegin', newItem);
+    document.getElementById("mainPost").value = "";
+    
+    setTimeout(() => { document.getElementById("notification").style.display = "none"; }, 3000);
+}
+
+let typingTimer;
+document.getElementById("mainPost").addEventListener('input', function() {
+    document.getElementById("draftIndicator").style.display = "none";
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => {
+        if(this.value.length > 0) {
+            document.getElementById("draftIndicator").style.display = "inline";
+        }
+    }, 3000);
+});
+</script>
+
+</body>
+</html>
