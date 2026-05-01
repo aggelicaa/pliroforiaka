@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="el">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Chartering & Approval Workflow - Fleet ERP</title>
@@ -7,70 +7,138 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* Κρατάμε το στυλ του template σου */
-.page-title { text-align: center; font-size: 26px; font-weight: bold; margin: 20px 0; color: #003366; }
-.box { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
-input, select, textarea { width: 100%; padding: 10px; border: 2px solid #003366; border-radius: 8px; outline: none; margin-bottom: 10px; font-family: inherit; }
-button { background: #003366; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-button:hover { background: #0055a5; transform: translateY(-1px); }
+/* Ίδια μορφοποίηση με το Vessel Tracking */
+.page-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin: 20px 0;
+  color: #003366;
+}
 
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 5px; }
-.stat { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; text-align: center; }
-.stat div { font-size: 24px; font-weight: bold; color: #003366; }
+.box {
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
 
-.item { padding: 15px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: flex-start; }
-.item:hover { background-color: #f8fafc; }
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #003366;
+  border-radius: 8px;
+  outline: none;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
 
-header { background: #003366; color: white; padding: 25px; text-align: center; }
-nav { background: #002244; padding: 12px; text-align: center; margin-bottom: 20px; }
-nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; font-size: 14px; }
-nav a:hover { color: #00d2ff; }
+button {
+  background: #003366;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
 
-/* Status Tags για το Workflow */
-.status-tag { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: bold; text-transform: uppercase; }
-.pending { background: #fef3c7; color: #92400e; } /* Σε εκκρεμότητα */
-.approved { background: #dcfce7; color: #166534; } /* Εγκρίθηκε */
-.rejected { background: #fee2e2; color: #991b1b; } /* Απορρίφθηκε */
+button:hover {
+  background: #0055a5;
+}
 
-.notification { position: fixed; top: 20px; right: 20px; background: #059669; color: white; padding: 15px 20px; border-radius: 8px; display: none; z-index: 1000; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
-.alert-banner { background: #003366; color: white; padding: 10px; text-align: center; font-weight: bold; display: none; margin-bottom: 20px; border-radius: 8px; }
+.item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-.flex-row { display: flex; gap: 15px; align-items: center; margin-bottom: 15px; }
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #003366;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: none;
+  z-index: 1000;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.stat {
+  background: #f4f6f8;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.stat div {
+  font-size: 22px;
+  margin-top: 5px;
+  color: #003366;
+}
+
+header { background: #003366; color: white; padding: 20px; text-align: center; margin-bottom: 0; }
+nav { background: #002244; padding: 10px; text-align: center; margin-bottom: 20px; }
+nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+nav a:hover { text-decoration: underline; }
+
+/* Workflow Status Tags */
+.status-tag { font-size: 12px; padding: 4px 8px; border-radius: 5px; font-weight: bold; text-transform: uppercase; }
+.pending { background: #fff4e5; color: #b7791f; }
+.approved { background: #e6ffed; color: #22863a; }
+.rejected { background: #ffeef0; color: #cb2431; }
+
+.flex-row { display: flex; gap: 15px; align-items: center; margin-bottom: 10px; }
+
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1 style="margin:0; letter-spacing: 2px;">CHARTERING & APPROVAL WORKFLOW</h1>
+  <h1>Chartering & Approval Workflow</h1>
 </header>
 
 <nav>
-  <a href="#">DASHBOARD</a>
-  <a href="#">NEW CHARTERING</a>
-  <a href="#">APPROVAL QUEUE</a>
-  <a href="#">ARCHIVE</a>
-  <a href="#" style="color: #f87171;">LOGOUT</a>
+  <a href="index.html">Home</a>
+  <a href="realtime.html">Real-Time Data Sharing</a>
+  <a href="chartering.html">Chartering Workflow</a>
+  <a href="detect_voyage_issues.html">Detect Voyage Issues</a>
+  <a href="login.html" class="logout-btn">Logout</a>
 </nav>
 
-<div id="topBanner" class="alert-banner">🔔 Νέα ενημέρωση στο Chartering Workflow!</div>
-
-<div id="notification" class="notification">✅ Η ενέργεια ολοκληρώθηκε με επιτυχία!</div>
+<div id="notification" class="notification"></div>
 
 <div class="box">
+  <h3>Charter Statistics</h3>
   <div class="stats">
-    <div class="stat">Total Charters<div>142</div><small>Current Year</small></div>
-    <div class="stat" style="border-top: 3px solid #d97706;">Pending Approval<div>5</div><small>Action Required</small></div>
-    <div class="stat" style="border-top: 3px solid #16a34a;">Approved<div>128</div><small>Active Fixtures</small></div>
-    <div class="stat">Rejected<div>9</div><small>Historical Data</small></div>
+    <div class="stat">Total Charters<div>142</div></div>
+    <div class="stat">Pending<div>5</div></div>
+    <div class="stat">Approved<div>128</div></div>
+    <div class="stat">Rejected<div>9</div></div>
   </div>
 </div>
 
 <div class="box">
-  <h3><span style="color: #003366;">📋</span> Καταχώρηση Νέου Ναύλου</h3>
+  <h3>Register New Fixture</h3>
   <div class="flex-row">
-    <input type="text" id="vesselName" placeholder="Όνομα Πλοίου (π.χ. Aegean Star)" style="flex:1;">
-    <input type="text" id="charterID" placeholder="Fixture ID (π.x. CH-2026-001)" style="flex:1;">
+    <input type="text" id="vesselName" placeholder="Vessel Name (e.g. Aegean Star)">
+    <input type="text" id="charterID" placeholder="Fixture ID (e.g. CH-2026-001)">
   </div>
   
   <div class="flex-row">
@@ -82,47 +150,40 @@ nav a:hover { color: #00d2ff; }
     </select>
   </div>
 
-  <textarea placeholder="Ειδικοί όροι ναύλωσης και παρατηρήσεις..." rows="3"></textarea>
+  <textarea placeholder="Special charter terms and remarks..." rows="3"></textarea>
   
   <div style="text-align: right;">
-    <button onclick="handleCharterSubmit()">Υποβολή για Έγκριση</button>
+    <button onclick="handleCharterSubmit()">Submit for Approval</button>
   </div>
 </div>
 
 <div class="box">
-  <h3><span style="color: #003366;">⚖️</span> Αξιολόγηση & Έγκριση (Operations)</h3>
+  <h3>Evaluation & Approval</h3>
   <div id="approvalStream">
     <div class="item">
-      <div style="flex: 1;">
-        <div style="margin-bottom: 8px;">
-          <span class="status-tag pending">Pending Approval</span>
-        </div>
-        <strong>Fixture: CH-2026-045 | Vessel: Blue Wave</strong>
-        <p><small>Charterer: Shell International | Rate: $25,000/day</small></p>
+      <div>
+        <strong>Fixture: CH-2026-045 | Vessel: Blue Wave</strong><br>
+        <small>Charterer: Shell International | Rate: $25,000/day</small><br>
+        <span class="status-tag pending">Pending Approval</span>
       </div>
       <div style="display: flex; gap: 5px;">
-        <button onclick="processAction('Approved')" style="background: #16a34a; font-size: 11px;">ΕΓΚΡΙΣΗ</button>
-        <button onclick="processAction('Rejected')" style="background: #991b1b; font-size: 11px;">ΑΠΟΡΡΙΨΗ</button>
+        <button onclick="processAction('Approved')" style="background: #22863a; padding: 6px 10px; font-size: 11px;">APPROVE</button>
+        <button onclick="processAction('Rejected')" style="background: #cb2431; padding: 6px 10px; font-size: 11px;">REJECT</button>
       </div>
     </div>
 
     <div class="item">
-      <div style="flex: 1;">
-        <div style="margin-bottom: 8px;">
-          <span class="status-tag approved">Approved</span>
-        </div>
-        <strong>Fixture: CH-2026-039 | Vessel: Ocean Giant</strong>
-        <p><small>Charterer: BP Shipping | Status: Finalized</small></p>
+      <div>
+        <strong>Fixture: CH-2026-039 | Vessel: Ocean Giant</strong><br>
+        <small>Charterer: BP Shipping | Status: Finalized</small><br>
+        <span class="status-tag approved">Approved</span>
       </div>
-      <div style="text-align: right;">
-        <button style="background: #e2e8f0; color: #1e293b; font-size: 11px;">View Details</button>
-      </div>
+      <button style="background: #f4f6f8; color: #003366; padding: 6px 10px; font-size: 11px; border: 1px solid #ccc;">View Details</button>
     </div>
   </div>
 </div>
 
 <script>
-// 4.1: Προσομοίωση ελέγχου διπλοεγγραφής
 const existingCharters = ["CH-2026-045", "CH-2026-039"];
 
 function handleCharterSubmit() {
@@ -130,36 +191,28 @@ function handleCharterSubmit() {
     const id = document.getElementById("charterID").value;
 
     if(vessel === "" || id === "") {
-        alert("Παρακαλώ συμπληρώστε τα υποχρεωτικά πεδία.");
+        showNotification("Please fill in all mandatory fields.");
         return;
     }
 
-    // Εναλλακτική ροή 4.1
     if(existingCharters.includes(id)) {
-        alert("ΣΦΑΛΜΑ: Ο ναύλος με ID " + id + " είναι ήδη καταχωρημένος στο σύστημα!");
+        showNotification("Error: Fixture ID " + id + " already exists!");
         return;
     }
 
-    // Βήμα 3.4: Επιτυχία & Banner
-    document.getElementById("notification").style.display = "block";
-    document.getElementById("topBanner").style.display = "block";
-    
-    // Προσθήκη στην ουρά (demo)
+    showNotification("Fixture submitted successfully!");
     existingCharters.push(id);
-    
-    setTimeout(() => { 
-        document.getElementById("notification").style.display = "none"; 
-    }, 3000);
 }
 
 function processAction(status) {
-    alert("Η αξιολόγηση ολοκληρώθηκε: " + status);
-    document.getElementById("notification").style.display = "block";
-    document.getElementById("topBanner").style.display = "block";
-    
-    setTimeout(() => { 
-        document.getElementById("notification").style.display = "none"; 
-    }, 3000);
+    showNotification("Action Processed: " + status);
+}
+
+function showNotification(msg) {
+    let n = document.getElementById("notification");
+    n.innerText = msg;
+    n.style.display = "block";
+    setTimeout(() => n.style.display = "none", 3000);
 }
 </script>
 
