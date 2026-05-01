@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="el">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Real Time Data Sharing - Fleet ERP</title>
@@ -7,34 +7,106 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* Κρατάμε το στυλ του template σου */
-.page-title { text-align: center; font-size: 26px; font-weight: bold; margin: 20px 0; color: #003366; }
-.box { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
-input, select, textarea { width: 100%; padding: 10px; border: 2px solid #003366; border-radius: 8px; outline: none; margin-bottom: 10px; font-family: inherit; }
-button { background: #003366; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-button:hover { background: #0055a5; transform: translateY(-1px); }
+.page-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin: 20px 0;
+  color: #003366;
+}
 
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 5px; }
-.stat { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; text-align: center; }
-.stat div { font-size: 24px; font-weight: bold; color: #003366; }
+.box {
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
 
-.item { padding: 15px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: flex-start; }
-.item:hover { background-color: #f8fafc; }
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #003366;
+  border-radius: 8px;
+  outline: none;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
 
-/* Ο τίτλος που άλλαξε */
-header { background: #003366; color: white; padding: 25px; text-align: center; }
-nav { background: #002244; padding: 12px; text-align: center; margin-bottom: 20px; }
-nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; font-size: 14px; }
-nav a:hover { color: #00d2ff; }
+button {
+  background: #003366;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
 
-.status-tag { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: bold; text-transform: uppercase; }
+button:hover {
+  background: #0055a5;
+}
+
+.item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.item:hover {
+  background-color: #f8fafc;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #003366;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: none;
+  z-index: 1000;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.stat {
+  background: #f4f6f8;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.stat div {
+  font-size: 22px;
+  margin-top: 5px;
+  color: #003366;
+}
+
+header { background: #003366; color: white; padding: 20px; text-align: center; margin-bottom: 0; }
+nav { background: #002244; padding: 10px; text-align: center; margin-bottom: 20px; }
+nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+nav a:hover { text-decoration: underline; }
+
+/* Status Tags & Badges */
+.status-tag { font-size: 11px; padding: 4px 10px; border-radius: 5px; font-weight: bold; text-transform: uppercase; }
 .onshore { background: #e0f2fe; color: #0369a1; }
 .offshore { background: #fef3c7; color: #92400e; }
-.priority-high { background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; }
+.priority-high { background: #ffeef0; color: #cb2431; border: 1px solid #f87171; }
 
-.notification { position: fixed; top: 20px; right: 20px; background: #059669; color: white; padding: 15px 20px; border-radius: 8px; display: none; z-index: 1000; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
-
-.flex-row { display: flex; gap: 15px; align-items: center; margin-bottom: 15px; }
+.flex-row { display: flex; gap: 15px; align-items: center; margin-bottom: 10px; }
 .badge { font-size: 12px; color: #64748b; font-style: italic; }
 </style>
 </head>
@@ -42,18 +114,18 @@ nav a:hover { color: #00d2ff; }
 <body>
 
 <header>
-  <h1 style="margin:0; letter-spacing: 2px;">REAL TIME DATA SHARING</h1>
+  <h1>Real-Time Data Sharing</h1>
 </header>
 
 <nav>
-  <a href="#">DASHBOARD</a>
-  <a href="#">REAL-TIME FEED</a>
-  <a href="#">FLEET DOCUMENTS</a>
-  <a href="#">COMPLIANCE MAP</a>
-  <a href="#" style="color: #f87171;">LOGOUT</a>
+  <a href="index.html">Home</a>
+  <a href="realtime.html">Real-Time Data Sharing</a>
+  <a href="chartering.html">Chartering Workflow</a>
+  <a href="detect_voyage_issues.html">Detect Voyage Issues</a>
+  <a href="login.html" class="logout-btn">Logout</a>
 </nav>
 
-<div id="notification" class="notification">✅ Η πληροφορία κοινοποιήθηκε σε όλα τα τμήματα!</div>
+<div id="notification" class="notification">✅ Information shared with all departments!</div>
 
 <div class="box">
   <div class="flex-row">
@@ -61,10 +133,10 @@ nav a:hover { color: #00d2ff; }
     <span class="badge">● Live Sync Active</span>
   </div>
   <div class="stats">
-    <div class="stat">Connections<div>12/12</div><small>Onshore/Offshore</small></div>
-    <div class="stat">Updates Today<div>48</div><small>Broadcasts</small></div>
-    <div class="stat" style="border-top: 3px solid #f87171;">Urgent<div>2</div><small>Pending Action</small></div>
-    <div class="stat">System Health<div>99%</div><small>Latency: 45ms</small></div>
+    <div class="stat">Connections<div>12/12</div><small>On/Offshore</small></div>
+    <div class="stat">Updates<div>48</div><small>Broadcasts</small></div>
+    <div class="stat" style="border-top: 3px solid #cb2431;">Urgent<div>2</div><small>Action Required</small></div>
+    <div class="stat">Health<div>99%</div><small>45ms Latency</small></div>
   </div>
 </div>
 
@@ -83,14 +155,14 @@ nav a:hover { color: #00d2ff; }
     </select>
   </div>
   
-  <textarea id="mainPost" placeholder="Περιγράψτε την αλλαγή ή την πληροφορία που πρέπει να διαμοιραστεί άμεσα..." rows="5"></textarea>
+  <textarea id="mainPost" placeholder="Describe the change or information that needs to be shared immediately..." rows="5"></textarea>
   
   <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
     <div>
       <button onclick="handlePublish()">Broadcast to Fleet</button>
     </div>
     <span id="draftIndicator" style="display:none; color: #059669; font-weight: bold; font-size: 13px;">
-       ✔ Auto-saved (Draft)
+        ✔ Auto-saved (Draft)
     </span>
   </div>
 </div>
@@ -107,11 +179,11 @@ nav a:hover { color: #00d2ff; }
           <span class="status-tag priority-high">High Priority</span>
           <span class="status-tag onshore">Onshore: Legal Dept</span>
         </div>
-        <strong>Νέα Νομοθεσία IMO (Low Sulphur):</strong> Όλα τα πλοία στην ζώνη Α πρέπει να αλλάξουν τύπο καυσίμου εντός 24 ωρών.
+        <strong>New IMO Legislation (Low Sulphur):</strong> All vessels in Zone A must switch fuel types within 24 hours.
         <br><small class="badge">Posted: 14:30 | ID: #9921</small>
       </div>
       <div style="text-align: right;">
-        <button onclick="editMsg(this)" style="background: #e2e8f0; color: #1e293b; font-size: 11px;">Edit Content</button>
+        <button onclick="showNotification('Opening editor...')" style="background: #f4f6f8; color: #003366; font-size: 11px; border: 1px solid #ccc;">Edit Content</button>
       </div>
     </div>
 
@@ -120,11 +192,11 @@ nav a:hover { color: #00d2ff; }
         <div style="margin-bottom: 8px;">
           <span class="status-tag offshore">Offshore: Captain Alpha</span>
         </div>
-        <strong>Vessel Update:</strong> Ολοκλήρωση επιθεώρησης cargo. Όλα τα δεδομένα συγχρονίστηκαν με το onshore ERP.
+        <strong>Vessel Update:</strong> Cargo inspection completed. All data synced with onshore ERP.
         <br><small class="badge">Posted: 13:15 | ID: #9918</small>
       </div>
       <div style="text-align: right;">
-        <button onclick="editMsg(this)" style="background: #e2e8f0; color: #1e293b; font-size: 11px;">Edit Content</button>
+        <button onclick="showNotification('Opening editor...')" style="background: #f4f6f8; color: #003366; font-size: 11px; border: 1px solid #ccc;">Edit Content</button>
       </div>
     </div>
   </div>
@@ -135,7 +207,7 @@ function handlePublish() {
     const text = document.getElementById("mainPost").value;
     if(text.trim() === "") return;
     
-    document.getElementById("notification").style.display = "block";
+    showNotification("✅ Broadcast successful!");
     
     const stream = document.getElementById("dataStream");
     const newItem = `
@@ -144,18 +216,23 @@ function handlePublish() {
           <div style="margin-bottom: 8px;">
             <span class="status-tag onshore">Onshore: COO</span>
           </div>
-          <strong>Νέα Ενημέρωση:</strong> ${text}
-          <br><small class="badge">Posted: Τώρα | ID: #NEW</small>
+          <strong>New Update:</strong> ${text}
+          <br><small class="badge">Posted: Just now | ID: #NEW</small>
         </div>
         <div style="text-align: right;">
-          <button style="background: #e2e8f0; color: #1e293b; font-size: 11px;">Edit Content</button>
+          <button style="background: #f4f6f8; color: #003366; font-size: 11px; border: 1px solid #ccc;">Edit Content</button>
         </div>
       </div>`;
     
     stream.insertAdjacentHTML('afterbegin', newItem);
     document.getElementById("mainPost").value = "";
-    
-    setTimeout(() => { document.getElementById("notification").style.display = "none"; }, 3000);
+}
+
+function showNotification(msg) {
+    let n = document.getElementById("notification");
+    n.innerText = msg;
+    n.style.display = "block";
+    setTimeout(() => n.style.display = "none", 3000);
 }
 
 let typingTimer;
@@ -166,7 +243,7 @@ document.getElementById("mainPost").addEventListener('input', function() {
         if(this.value.length > 0) {
             document.getElementById("draftIndicator").style.display = "inline";
         }
-    }, 3000);
+    }, 2000);
 });
 </script>
 
